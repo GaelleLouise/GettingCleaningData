@@ -27,7 +27,7 @@ dat <- read.xlsx("./data/GasAcquisProgram.xlsx", colIndex = c(7:15), rowIndex = 
 
 # read.xlsx ne fonctionne pas => toutes les installs de packages liés à Excel sont KO à cause de Java
 # => passage par un fichier txt :
-dat <- read.table("./data/GasAcquisProgram.txt", sep = "\t", header = TRUE)
+dat <- read.table("./data/GasAcquisProgram.txt", sep = "\t", header = TRUE) #♣ séparateur tabulation
 
 
 ## fichier XML :
@@ -43,3 +43,9 @@ xmlName(rootNode) # => response
 names(rootNode) # => row
 zipcodes <- xpathSApply(rootNode,"//zipcode", xmlValue) # stocke l'ensemble des zipcodes dans une variable
 sum(zipcodes == "21231") # donne le nb de zipcodes égaux à 21231
+
+## nouveau fichier CSV :
+fileUrl <- "https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Fss06pid.csv"
+download.file(fileUrl, destfile = "./data/housing_Idaho2.csv", method = "curl")
+dateDownload <- date()
+data <- read.csv("./data/housing_Idaho2.csv")
