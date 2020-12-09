@@ -25,3 +25,29 @@ library(jpeg)
 photo <- readJPEG("./data/photo.jpg", native = TRUE)
 quantile(photo, probs = c(0.3, 0.8))
 
+
+## Question 3
+# téléchargement du fichier :
+if(!file.exists("./data")) {dir.create("./data")}
+#file Gross Domestic Product data:
+fileUrl <- "https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FGDP.csv"
+download.file(fileUrl, destfile = "./data/Gross_Domestic_Product.csv", method = "curl")
+# date du téléchargement :
+dateDownload <- date()
+# intégration des données dans un dataframe data :
+gross <- read.csv("./data/Gross_Domestic_Product.csv", skip = 5, header = FALSE,
+                  col.names = c("CountryCode","Rank","Vide1","CountryName","GrossDomesticProduct"
+                                ,"Vide2","Vide3","Vide4","Vide5","Vide6"))
+# file Educational data:
+fileUrl <- "https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FEDSTATS_Country.csv"
+download.file(fileUrl, destfile = "./data/Education.csv", method = "curl")
+# date du téléchargement :
+dateDownload <- date()
+# intégration des données dans un dataframe data :
+educ <- read.csv("./data/Education.csv")
+
+# vérification des noms en commun :
+intersect(names(gross), names(educ))
+#seul le code pays en commun, donc on peut faire un Merge "automatique" (sinon, il faut préciser by.x et by.y)
+
+
