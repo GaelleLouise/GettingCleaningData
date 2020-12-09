@@ -31,3 +31,16 @@ install.packages("Hmisc")
 library(Hmisc)
 restData$zipGroups = cut2(restData$zipCode, g = 4)
 table(restData$zipGroups)
+
+# melting data frames :
+install.packages("reshape2")
+library(reshape2)
+mtcars$carname <- rownames(mtcars) # pour affecter le nom de chaque ligne à l'une des colonnes (sinon, l'info n'existe pas)
+# on définit ensuite quelles variables sont considérées comme identifiants et lessquelles commes mesures :
+carMelt <- melt(mtcars, id = c("carname", "gear", "cyl"), measure.vars = c("mpg", "hp"))
+head(carMelt, 5)
+tail(carMelt, 5)
+
+# utilisation du package dyplr :
+install.packages("dplyr")
+library(dplyr)
