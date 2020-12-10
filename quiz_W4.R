@@ -47,3 +47,15 @@ GrossEduc = merge(gross, educ, all = FALSE)
 
 # l'année fiscale est cachée dans le champ "Special.Notes"
 grep("iscal year end: June 30", GrossEduc$Special.Notes, value = TRUE)
+
+
+## Question 5
+# code fourni pour récupérer les données sur les prix desdonnées du NASDAQ et NYSE :
+library(quantmod)
+amzn = getSymbols("AMZN",auto.assign=FALSE)
+sampleTimes = index(amzn)
+
+# charger le package lubridate :
+library(lubridate)
+sum(year(ymd(sampleTimes)) == 2012) # => 250
+sum(year(ymd(sampleTimes)) == 2012 & weekdays(ymd(sampleTimes)) == "Monday") # => 47
