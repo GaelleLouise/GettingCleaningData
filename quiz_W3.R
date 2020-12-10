@@ -37,7 +37,7 @@ dateDownload <- date()
 # intégration des données dans un dataframe data :
 gross <- read.csv("./data/Gross_Domestic_Product.csv", skip = 5, header = FALSE,
                   col.names = c("CountryCode","Rank","Vide1","CountryName","GrossDomesticProduct"
-                                ,"Vide2","Vide3","Vide4","Vide5","Vide6"))
+                                ,"Vide2","Vide3","Vide4","Vide5","Vide6"), nrows = 190)
 # file Educational data:
 fileUrl <- "https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FEDSTATS_Country.csv"
 download.file(fileUrl, destfile = "./data/Education.csv", method = "curl")
@@ -49,5 +49,17 @@ educ <- read.csv("./data/Education.csv")
 # vérification des noms en commun :
 intersect(names(gross), names(educ))
 #seul le code pays en commun, donc on peut faire un Merge "automatique" (sinon, il faut préciser by.x et by.y)
+GrossEduc = merge(gross, educ, all = FALSE)
+GrossEduc <- GrossEduc[order(GrossEduc$Rank, decreasing = TRUE, na.last = TRUE),]
+head(GrossEduc ,13)
 
 
+## Question 4
+# on regroupe les données par Income.Group (2 valeurs seulement) pour calculer le ranking moyen pour chaque groupe :
+tapply(GrossEduc$Rank,GrossEduc$Income.Group, mean, na.rm = TRUE)
+
+## Question 5 :
+#Répartir les ranking en 5 quantiles pour connaître le nb de pays dans le premier ranking mais avec "lower middle income"
+# ATTENTION : package Hmisc nécessaire pour fonction cut2
+GrossEduc$RankGroups = cut2(GrossEduc$Rank, g = 5)
+table(GrossEduc$Income.Group, GrossEduc$RankGroups)
